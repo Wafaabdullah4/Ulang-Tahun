@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Ulang Tahun carrel putri Yuga Salsabila ke-6</title>
+    <title>Ulang Tahun Carrel Putri Yuga Salsabila ke-6</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@700&family=Poppins:wght@400;600&display=swap" rel="stylesheet">
     <style>
@@ -72,11 +72,107 @@
             background-position: bottom;
             background-size: 200px 50px;
         }
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0,0,0,0.5);
+            z-index: 2000;
+            justify-content: center;
+            align-items: center;
+        }
+        .modal-content {
+            background-color: white;
+            padding: 2rem;
+            border-radius: 1rem;
+            max-width: 90%;
+            width: 400px;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+        }
+        .animate-spin-slow {
+            animation: spin 8s linear infinite;
+        }
+        .balloon {
+            position: absolute;
+            width: 40px;
+            height: 50px;
+            border-radius: 50%;
+            animation: balloonFloat 15s linear infinite;
+            opacity: 0.8;
+            z-index: -1;
+        }
+        @keyframes balloonFloat {
+            0% { transform: translate(0, 100vh) scale(0.5); }
+            100% { transform: translate(100vw, -100px) scale(0.8); }
+        }
+        .photo-frame {
+            border: 8px solid white;
+            border-radius: 10px;
+            box-shadow: 0 10px 20px rgba(0,0,0,0.1);
+            transition: transform 0.3s ease;
+        }
+        .photo-frame:hover {
+            transform: scale(1.05);
+        }
+        .countdown {
+            font-family: 'Baloo 2', cursive;
+            text-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+        .music-control {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            z-index: 1000;
+            background-color: rgba(255,255,255,0.9);
+            border-radius: 50%;
+            width: 50px;
+            height: 50px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+            cursor: pointer;
+        }
     </style>
 </head>
 <body class="min-h-screen flex flex-col grass">
+   
+    
+    <!-- Music Control Button -->
+    <div id="musicControl" class="music-control" onclick="toggleMusic()">
+        <svg id="playIcon" xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-green-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15.536 8.464a5 5 0 010 7.072m2.828-9.9a9 9 0 010 12.728M5.586 15.536a5 5 0 001.414 1.414m2.828-9.9a9 9 0 012.728-2.728" />
+        </svg>
+        <svg id="pauseIcon" xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-green-600 hidden" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5.586 15H4a1 1 0 01-1-1v-4a1 1 0 011-1h1.586l4.707-4.707C10.923 3.663 12 4.109 12 5v14c0 .891-1.077 1.337-1.707.707L5.586 15z" clip-rule="evenodd" />
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 14a2 2 0 100-4 2 2 0 000 4z" />
+        </svg>
+    </div>
+
     <!-- Animated Elements Container -->
     <div id="animated-elements"></div>
+
+    <!-- Name Input Modal -->
+    <div id="nameModal" class="modal">
+        <div class="modal-content relative">
+            <button onclick="closeModal()" class="absolute top-2 right-2 text-gray-500 hover:text-gray-700">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+                </svg>
+            </button>
+            <h3 class="text-xl font-bold text-green-700 mb-4" style="font-family: 'Baloo 2', cursive;">Masukkan Nama Anda</h3>
+            <input type="text" id="guestName" placeholder="Nama Anda" class="w-full px-4 py-2 border border-green-300 rounded-lg mb-4 focus:outline-none focus:ring-2 focus:ring-green-500">
+            <button onclick="sendWhatsApp()" class="w-full bg-green-500 hover:bg-green-600 text-white font-bold py-2 px-4 rounded-lg transition duration-300 flex items-center justify-center">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-2" viewBox="0 0 24 24" fill="currentColor">
+                    <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-6.29-3.062c.545 0 1.033-.487 1.033-1.087 0-.599-.484-1.086-1.033-1.086-.547 0-1.034.487-1.034 1.086 0 .6.487 1.087 1.034 1.087m4.008 0c.547 0 1.034-.487 1.034-1.087 0-.599-.487-1.086-1.034-1.086-.545 0-1.033.487-1.033 1.086 0 .6.488 1.087 1.033 1.087M12 22a10 10 0 1 1 0-20 10 10 0 0 1 0 20z"/>
+                </svg>
+                Kirim Konfirmasi
+            </button>
+        </div>
+    </div>
 
     <!-- Header with Animated Character -->
     <header class="relative overflow-hidden bg-gradient-to-b from-green-500 to-green-400 py-12 text-center">
@@ -90,46 +186,69 @@
         
         <div class="relative z-10">
             <div class="inline-block bg-white rounded-full p-2 shadow-lg bounce">
-                <img src="adik-farel.jpeg" alt="Foto carrel putri Yuga Salsabila" class="w-40 h-40 rounded-full border-4 border-green-300 object-cover">
+                <img src="adik-farel.jpeg" alt="Foto Carrel Putri Yuga Salsabila" class="w-40 h-40 rounded-full border-4 border-green-300 object-cover">
             </div>
         </div>
     </header>
 
     <!-- Main Content -->
     <main class="flex-grow container mx-auto px-4 py-8 max-w-3xl">
-        <section class="bg-white rounded-2xl shadow-xl p-8 mb-8 text-center relative overflow-hidden border-4 border-green-200">
-        <div class="relative bg-white p-4 sm:p-6 rounded-xl border border-green-200 overflow-hidden">
-            <!-- Decorative corners -->
-            <div class="absolute top-0 left-0 w-12 h-12 sm:w-16 sm:h-16 border-l-4 border-t-4 border-green-400 rounded-tl-2xl"></div>
-            <div class="absolute top-0 right-0 w-12 h-12 sm:w-16 sm:h-16 border-r-4 border-t-4 border-green-400 rounded-tr-2xl"></div>
-            <div class="absolute bottom-0 left-0 w-12 h-12 sm:w-16 sm:h-16 border-l-4 border-b-4 border-green-400 rounded-bl-2xl"></div>
-            <div class="absolute bottom-0 right-0 w-12 h-12 sm:w-16 sm:h-16 border-r-4 border-b-4 border-green-400 rounded-br-2xl"></div>
-
-            <!-- Text Content -->
-            <h2 class="text-xl sm:text-2xl font-bold text-green-700 mb-2 sm:mb-4 text-center" style="font-family: 'Baloo 2', cursive;">Dear, Teman-Teman</h2>
-            <p class="text-gray-700 mb-4 sm:mb-6 text-center">Aku mengundang kalian ke pesta ulang tahunku yang spesial!</p>
-
-            <!-- Birthday Card -->
-            <div class="bg-green-100 rounded-xl p-6 border-2 border-green-300 relative pt-12 sm:pt-14">
-                <!-- Name Badge -->
-                <div class="absolute top-0 left-1/2 transform -translate-x-1/2 -translate-y-1/2 bg-white px-4 py-1 rounded-full border-2 border-green-300 max-w-[90%] text-center shadow-md">
-                    <span class="text-green-700 font-bold text-base sm:text-xl" style="font-family: 'Baloo 2', cursive;">carrel putri Yuga Salsabila</span>
+        <!-- Countdown Section -->
+        <section class="bg-white rounded-2xl shadow-xl p-6 mb-8 text-center relative overflow-hidden border-4 border-green-200">
+            <h2 class="text-2xl font-bold text-green-600 mb-4" style="font-family: 'Baloo 2', cursive;">Hitungan Mundur Ulang Tahun!</h2>
+            <div class="flex justify-center space-x-2 sm:space-x-4">
+                <div class="bg-green-100 rounded-lg p-3 sm:p-4 w-16 sm:w-20">
+                    <div class="text-2xl sm:text-3xl font-bold text-green-600 countdown" id="countdown-days">00</div>
+                    <div class="text-xs sm:text-sm text-green-800">Hari</div>
                 </div>
-
-                <!-- Age -->
-                <p class="text-2xl sm:text-4xl font-bold text-green-600 text-center pt-4 sm:pt-6" style="font-family: 'Baloo 2', cursive;">ke 6 Tahun</p>
-
-                <!-- Icon -->
-                <div class="mt-4 flex justify-center animate-spin-slow">
-                    <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8 text-green-500" viewBox="0 0 20 20" fill="currentColor">
-                        <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm1-11a1 1 0 10-2 0v3.586L7.707 9.293a1 1 0 00-1.414 1.414l3 3a1 1 0 001.414 0l3-3a1 1 0 00-1.414-1.414L11 10.586V7z" clip-rule="evenodd" />
-                    </svg>
+                <div class="bg-green-100 rounded-lg p-3 sm:p-4 w-16 sm:w-20">
+                    <div class="text-2xl sm:text-3xl font-bold text-green-600 countdown" id="countdown-hours">00</div>
+                    <div class="text-xs sm:text-sm text-green-800">Jam</div>
+                </div>
+                <div class="bg-green-100 rounded-lg p-3 sm:p-4 w-16 sm:w-20">
+                    <div class="text-2xl sm:text-3xl font-bold text-green-600 countdown" id="countdown-minutes">00</div>
+                    <div class="text-xs sm:text-sm text-green-800">Menit</div>
+                </div>
+                <div class="bg-green-100 rounded-lg p-3 sm:p-4 w-16 sm:w-20">
+                    <div class="text-2xl sm:text-3xl font-bold text-green-600 countdown" id="countdown-seconds">00</div>
+                    <div class="text-xs sm:text-sm text-green-800">Detik</div>
                 </div>
             </div>
-        </div>
+        </section>
 
+        <!-- Invitation Card -->
+        <section class="bg-white rounded-2xl shadow-xl p-8 mb-8 text-center relative overflow-hidden border-4 border-green-200">
+            <div class="relative bg-white p-4 sm:p-6 rounded-xl border border-green-200 overflow-hidden">
+                <!-- Decorative corners -->
+                <div class="absolute top-0 left-0 w-12 h-12 sm:w-16 sm:h-16 border-l-4 border-t-4 border-green-400 rounded-tl-2xl"></div>
+                <div class="absolute top-0 right-0 w-12 h-12 sm:w-16 sm:h-16 border-r-4 border-t-4 border-green-400 rounded-tr-2xl"></div>
+                <div class="absolute bottom-0 left-0 w-12 h-12 sm:w-16 sm:h-16 border-l-4 border-b-4 border-green-400 rounded-bl-2xl"></div>
+                <div class="absolute bottom-0 right-0 w-12 h-12 sm:w-16 sm:h-16 border-r-4 border-b-4 border-green-400 rounded-br-2xl"></div>
+
+                <!-- Text Content -->
+                <h2 class="text-xl sm:text-2xl font-bold text-green-700 mb-2 sm:mb-4 text-center" style="font-family: 'Baloo 2', cursive;">Dear, Teman-Teman</h2>
+                <p class="text-gray-700 mb-4 sm:mb-6 text-center">Aku mengundang kalian ke pesta ulang tahunku yang spesial!</p>
+
+                <!-- Birthday Card -->
+                <div class="bg-green-100 rounded-xl p-6 border-2 border-green-300 relative pt-12 sm:pt-14">
+                    <!-- Name Badge -->
+                    <div class="absolute top-0 left-1/2 transform -translate-x-1/2 -translate-y-1/2 bg-white px-4 py-1 rounded-full border-2 border-green-300 max-w-[90%] text-center shadow-md">
+                        <span class="text-green-700 font-bold text-base sm:text-xl" style="font-family: 'Baloo 2', cursive;">Carrel Putri Yuga Salsabila</span>
+                    </div>
+
+                    <!-- Age -->
+                    <p class="text-2xl sm:text-4xl font-bold text-green-600 text-center pt-4 sm:pt-6" style="font-family: 'Baloo 2', cursive;">ke 6 Tahun</p>
+
+                    <!-- Icon -->
+                    <div class="mt-4 flex justify-center animate-spin-slow">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8 text-green-500" viewBox="0 0 20 20" fill="currentColor">
+                            <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm1-11a1 1 0 10-2 0v3.586L7.707 9.293a1 1 0 00-1.414 1.414l3 3a1 1 0 001.414 0l3-3a1 1 0 00-1.414-1.414L11 10.586V7z" clip-rule="evenodd" />
+                        </svg>
+                    </div>
+                </div>
+            </div>
             
-            <div class="text-left space-y-4 mb-6">
+            <div class="text-left space-y-4 mb-6 mt-6">
                 <h4 class="text-xl font-semibold text-green-700" style="font-family: 'Baloo 2', cursive;">Acara akan dilaksanakan:</h4>
                 <div class="flex items-start">
                     <span class="text-green-500 mr-2 text-xl">🎈</span>
@@ -137,20 +256,16 @@
                 </div>
                 <div class="flex items-start">
                     <span class="text-green-500 mr-2 text-xl">⏰</span>
-                    <p><span class="font-semibold">Waktu</span> : 11.00 - Selesai</p>
+                    <p><span class="font-semibold">Waktu</span> : 13.00 - Selesai</p>
                 </div>
                 <div class="flex items-start">
                     <span class="text-green-500 mr-2 text-xl">📍</span>
-                    <p><span class="font-semibold">Tempat</span> : (Tempat akan diinformasikan kemudian)</p>
+                    <p><span class="font-semibold">Tempat</span> : Happy kiddy (BIP)</p>
                 </div>
             </div>
             
             <p class="text-gray-700 italic mb-6">Aku tidak sabar bermain bersama kalian!</p>
             
-            <div class="border-t border-green-200 pt-4">
-                <p class="text-gray-700">Dengan cinta,</p>
-                <p class="font-bold text-green-700" style="font-family: 'Baloo 2', cursive;">Keluarga carrel putri Yuga Salsabila</p>
-            </div>
         </section>
         
         <!-- RSVP Button -->
@@ -167,8 +282,8 @@
     <!-- Footer -->
     <footer class="bg-green-600 text-white text-center py-6">
         <div class="container mx-auto px-4">
-            <p class="mb-2" style="font-family: 'Baloo 2', cursive;">Dibuat dengan ❤️ untuk carrel putri Yuga Salsabila</p>
-            <p class="text-sm text-green-200">© 2025 Ulang Tahun ke-6 carrel putri Yuga Salsabila Salsabila</p>
+            <p class="mb-2" style="font-family: 'Baloo 2', cursive;">Dibuat dengan ❤️ untuk Carrel Putri Yuga Salsabila</p>
+            <p class="text-sm text-green-200">© 2025 Ulang Tahun ke-6 Carrel Putri Yuga Salsabila</p>
         </div>
     </footer>
 
@@ -190,9 +305,22 @@
                 container.appendChild(butterfly);
             }
             
+            // Create balloons
+            const balloonColors = ['#A3E635', '#84CC16', '#65A30D', '#4D7C0F', '#3F6212'];
+            for (let i = 0; i < 8; i++) {
+                const balloon = document.createElement('div');
+                balloon.className = 'balloon';
+                balloon.style.backgroundColor = balloonColors[Math.floor(Math.random() * balloonColors.length)];
+                balloon.style.left = Math.random() * 100 + 'vw';
+                balloon.style.top = Math.random() * 100 + 'vh';
+                balloon.style.animationDuration = Math.random() * 15 + 15 + 's';
+                balloon.style.animationDelay = Math.random() * 5 + 's';
+                container.appendChild(balloon);
+            }
+            
             // Create floating emojis
-            const emojis = ['🌿', '🌸', '🌼', '🍃', '🐞', '🐝'];
-            for (let i = 0; i < 10; i++) {
+            const emojis = ['🎈', '🎂', '🎁', '🎀', '✨', '🌿'];
+            for (let i = 0; i < 12; i++) {
                 const emoji = document.createElement('div');
                 emoji.className = 'float absolute text-2xl';
                 emoji.style.left = Math.random() * 100 + 'vw';
@@ -206,9 +334,9 @@
 
         // Create confetti
         function createConfetti() {
-            const colors = ['#48bb78', '#38a169', '#68d391', '#9ae6b4', '#c6f6d5'];
+            const colors = ['#A3E635', '#84CC16', '#65A30D', '#4D7C0F', '#3F6212', '#365314'];
             
-            for (let i = 0; i < 100; i++) {
+            for (let i = 0; i < 150; i++) {
                 const confetti = document.createElement('div');
                 confetti.className = 'confetti';
                 confetti.style.left = Math.random() * 100 + 'vw';
@@ -226,25 +354,83 @@
             }
         }
 
-        // WhatsApp confirmation
+        // Show name input modal
         function confirmAttendance() {
             createConfetti();
+            document.getElementById('nameModal').style.display = 'flex';
             
-            // WhatsApp message
-            const phone = "+6282118273967";
-            const message = encodeURIComponent("Halo carrel putri Yuga Salsabila! Aku mau datang ke pesta ulang tahunmu yang ke 6 tahun pada Selasa, 27 Mei 2025. Aku tidak sabar bermain bersama! 🎉🎂");
+            // Play a sound when button is clicked
+            const clickSound = new Audio('https://assets.mixkit.co/sfx/preview/mixkit-positive-interface-beep-221.mp3');
+            clickSound.volume = 0.3;
+            clickSound.play();
+        }
+
+        // Close modal
+        function closeModal() {
+            document.getElementById('nameModal').style.display = 'none';
+        }
+
+        // Send WhatsApp message
+        function sendWhatsApp() {
+            const name = document.getElementById('guestName').value.trim();
+            if (!name) {
+                alert('Silakan masukkan nama Anda terlebih dahulu');
+                return;
+            }
+
+            const phone = "+6282130107029";
+            const message = encodeURIComponent(
+`Halo Carrel Putri Yuga Salsabila!
+
+Perkenalkan, nama saya ${name}.
+
+Saya ingin mengkonfirmasi kehadiran di pesta ulang tahunmu yang ke-6 pada:
+
+Selasa, 27 Mei 2025
+13.00 - Selesai
+
+Saya tidak sabar untuk bermain bersamamu! 🎉🎂
+
+Salam hangat,
+${name}`
+            );
             
-            // Redirect to WhatsApp after 1 second
+         
+            
+            // Close modal
+            closeModal();
+            
+            // Redirect to WhatsApp after 0.5 second
             setTimeout(() => {
                 window.location.href = `https://wa.me/${phone}?text=${message}`;
-            }, 1000);
+            }, 500);
+        }
+
+        // Countdown timer
+        function updateCountdown() {
+            const birthday = new Date('May 27, 2025 13:00:00').getTime();
+            const now = new Date().getTime();
+            const distance = birthday - now;
+            
+            const days = Math.floor(distance / (1000 * 60 * 60 * 24));
+            const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+            const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+            const seconds = Math.floor((distance % (1000 * 60)) / 1000);
+            
+            document.getElementById('countdown-days').innerHTML = days.toString().padStart(2, '0');
+            document.getElementById('countdown-hours').innerHTML = Math.floor(hours).toString().padStart(2, '0');
+            document.getElementById('countdown-minutes').innerHTML = minutes.toString().padStart(2, '0');
+            document.getElementById('countdown-seconds').innerHTML = seconds.toString().padStart(2, '0');
         }
 
         // Initialize on load
         window.onload = function() {
             createAnimatedElements();
             createConfetti();
+            updateCountdown();
+            setInterval(updateCountdown, 1000);
+            
         };
     </script>
 </body>
-</html>
+</html> 
